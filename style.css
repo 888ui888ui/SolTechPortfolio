@@ -24,17 +24,22 @@ body.dark-mode {
     right: 30px;
     width: 50px;
     height: 50px;
-    background: var(--secondary);
-    color: var(--primary);
+    background: #ffb400; /* Your --secondary color */
+    color: #3a0ca3;      /* Your --primary color */
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    display: none;
-    z-index: 1001;
+    display: none;       /* Hidden initially */
+    z-index: 2000;
     transition: 0.3s;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
-.back-to-top.show { display: block; animation: fadeInUp 0.4s; }
+/* This class is what the JS adds when you scroll down */
+.back-to-top.show {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
 
 /* Mid-aligned Titles */
 .section-title {
@@ -248,7 +253,37 @@ body.dark-mode .about-description {
     width: 0%;
     z-index: 9999;
 }
+/* Styling the back of the card for ERP list */
+.erp-list {
+    list-style: none;
+    text-align: left;
+    padding: 0 5px;
+    margin: 0;
+}
 
+.erp-list li {
+    font-size: 0.75rem; /* Small but sharp for high-res screens */
+    line-height: 1.3;
+    margin-bottom: 6px;
+    color: var(--primary); /* Deep Purple on Gold background */
+    border-left: 3px solid var(--primary);
+    padding-left: 8px;
+}
+
+.erp-list li strong {
+    display: block;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+}
+
+/* Ensure flip-back content stays centered if text is long */
+.flip-back {
+    justify-content: flex-start; /* Start from top so list doesn't get cut off */
+    padding: 20px 15px;
+    overflow-y: auto; /* Adds a scrollbar ONLY if the list is too long for the card */
+}
 /* Updated Service Flip Cards (Primary to Secondary) */
 section { padding: 80px 20px; max-width: 1200px; margin: auto; }
 .text-center { text-align: center; margin-bottom: 50px; }
@@ -495,3 +530,60 @@ section { padding: 80px 20px; max-width: 1200px; margin: auto; }
         text-align: center;
     }
 }
+
+
+/* --- Mobile Responsiveness --- */
+
+@media (max-width: 992px) {
+   .nav-links {
+        position: fixed;
+        left: -100%; /* Hidden off-screen */
+        top: 0;
+        height: 100vh;
+        width: 70%; /* Takes up most of the screen */
+        background: #502b79; /* Matches your nav color */
+        flex-direction: column;
+        justify-content: center;
+        transition: 0.4s ease-in-out;
+        box-shadow: 10px 0 20px rgba(0,0,0,0.3);
+    }
+
+   .nav-links.active {
+        left: 0;
+    }
+
+  .menu-toggle {
+        display: block !important;
+        cursor: pointer;
+        z-index: 1100;
+    }
+
+    .menu-toggle .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        background-color: white;
+        transition: 0.3s;
+    }
+
+    /* Grid Adjustments for Mobile */
+    .services-grid, .portfolio-grid, .about-stats-grid {
+        grid-template-columns: 1fr; /* Stack cards in one column */
+        gap: 20px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .brand-col, .footer-col {
+        align-items: center;
+    }
+}
+
+/* Animations for the Hamburger */
+#mobile-menu.is-active .bar:nth-child(2) { opacity: 0; }
+#mobile-menu.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+#mobile-menu.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }

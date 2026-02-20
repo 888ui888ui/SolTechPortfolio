@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>SolTech PLC | Enterprise ERP & Web Solutions</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="/images/logo7.png">
     <style>
         :root { --primary: <?php echo $brand_primary; ?>; --secondary: <?php echo $brand_secondary; ?>; }
     </style>
@@ -31,11 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <nav>
     <div class="nav-container">
-<a href="index.php" class="logo-link">
+        <a href="index.php" class="logo-link">
             <img src="/images/logo7.png" alt="SolTech Logo" class="logo-img">
-        </a>      
-          <ul class="nav-links">
-            <li><a href="#about">About </a></li>
+        </a>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#process">Process</a></li>
             <li><a href="#portfolio">Portfolio</a></li>
@@ -68,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="about-stats-grid">
             <div class="stat-card">
                 <div class="stat-number">10+</div>
-                <div class="stat-label">Enterprise Projects</div>
+                <div class="stat-label">Successful Projects</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">100%</div>
@@ -79,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="stat-label">System Support</div>
             </div>
             <div class="stat-card highlight-card">
-                <div class="stat-number">5+</div>
+                <div class="stat-number">2+</div>
                 <div class="stat-label">Years of Excellence</div>
             </div>
         </div>
@@ -93,7 +101,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             [
                 'title' => 'ERP Implementation',
                 'short' => 'Streamline your enterprise operations with automated workflows.',
-                'full' => 'End-to-end Odoo & custom ERP deployment. We specialize in automating finance, supply chain, and human capital management for large-scale PLCs.'
+                // We store the sub-modules as an array to keep the code clean
+                'details' => [
+                    'Finance & Accounting' => 'General ledger, AP/AR, budgeting, and compliance.',
+                    'Human Resources' => 'Payroll, recruitment, and performance management.',
+                    'Supply Chain' => 'Procurement, logistics, and demand planning.',
+                    'Inventory' => 'Stock tracking and warehouse automation.',
+                    'Manufacturing' => 'Production planning, BOM, and quality control.',
+                    'Sales & CRM' => 'Customer interactions and order-to-cash.',
+                    'Procurement' => 'Sourcing and vendor management.'
+                ]
             ],
             [
                 'title' => 'Custom Modules',
@@ -111,6 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'full' => 'Dedicated SLA-based support and cloud monitoring to ensure your enterprise infrastructure remains resilient and up-to-date.'
             ]
         ];
+
         foreach ($services as $s): ?>
         <div class="flip-card">
             <div class="flip-card-inner">
@@ -118,9 +136,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h3><?php echo $s['title']; ?></h3>
                     <p class="short-info"><?php echo $s['short']; ?></p>
                 </div>
+                
                 <div class="flip-back">
-                    <h3>Deep Dive</h3>
-                    <p><?php echo $s['full']; ?></p>
+                    <?php if ($s['title'] === 'ERP Implementation'): ?>
+                        <h3 style="font-size: 1.1rem; margin-bottom: 10px;">ERP Sub-Modules</h3>
+                        <ul class="erp-list">
+                            <?php foreach ($s['details'] as $module => $desc): ?>
+                                <li><strong><?php echo $module; ?>:</strong> <?php echo $desc; ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <h3>Deep Dive</h3>
+                        <p><?php echo $s['full']; ?></p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -259,5 +287,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </footer>
 <script src="script.js"></script>
+<div id="scroll-indicator"></div>
+<button class="back-to-top" id="back-to-top"><i class="fas fa-arrow-up"></i></button>
 </body>
 </html>
